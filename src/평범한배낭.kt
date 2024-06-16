@@ -60,9 +60,9 @@ private fun shit(materials: List<Material>, limit: Int): Triple<Int, List<Materi
     return Triple(limitTmp, successs, resultTmp)
 }
 
-fun String.toMaterial(): Material = split(" ").run { Material(get(0).toInt(), get(1).toInt()) }
+private fun String.toMaterial(): Material = split(" ").run { Material(get(0).toInt(), get(1).toInt()) }
 
-data class Material(val weight: Int, val value: Int) : Comparable<Material> {
+private data class Material(val weight: Int, val value: Int) : Comparable<Material> {
     private val ratio: Float get() = value / weight.toFloat()
 
     override fun compareTo(other: Material): Int = when {
