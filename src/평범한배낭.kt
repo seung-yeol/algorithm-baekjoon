@@ -1,5 +1,3 @@
-import java.util.*
-
 /**
  * https://www.acmicpc.net/problem/12865
  *
@@ -20,67 +18,24 @@ import java.util.*
  * 5 12
  * */
 fun main() {
-    var result = 0
     val buffer = System.`in`.bufferedReader()
-    val (n, limit) = buffer.readLine().split(" ").run { get(0).toInt() to get(1).toInt() }
+    val (n: Int, capacity: Int) = buffer.readLine().toPair()
+    val materials: Array<Pair<Int, Int>> = Array(n) { buffer.readLine().toPair() }
+    val memo: IntArray = IntArray(capacity + 1)
 
-    val materials = mutableListOf<Material>()
-    var i = 0
-    while (i != n) {
-        i++
-        materials.add(buffer.readLine().toMaterial())
-    }
+    materials.forEach { (weight, value) ->
+        if (capacity < weight) return@forEach
 
-    var (limitTmp, success) = shit(materials, limit)
-    while (limitTmp != 0 || success.isEmpty()) {
-        val newMaterial = materials - success
-        shit(newMaterial, limitTmp + success.last().weight).also { (fi, se, thi) ->
-            limitTmp = fi
-            success = se
-            if (result < thi) result = thi
+        for (index in capacity - weight downTo 0) {
+            if (index != 0 && memo[index] == 0) continue
+
+            val old = memo[index + weight]
+            val new = memo[index] + value
+            if (old < new) memo[index + weight] = new
         }
     }
 
-    println(result)
+    println(memo.max())
 }
 
-private fun shit(materials: List<Material>, limit: Int): Triple<Int, List<Material>, Int> {
-    val successs: MutableList<Material> = mutableListOf()
-    val pq = PriorityQueue(materials)
-    var resultTmp = 0
-    var limitTmp = limit
-    while (pq.isNotEmpty()) {
-        val material = pq.poll()
-        if (limitTmp < material.weight) continue
-
-        successs.add(material)
-        limitTmp -= material.weight
-        resultTmp += material.value
-    }
-    return Triple(limitTmp, successs, resultTmp)
-}
-
-private fun String.toMaterial(): Material = split(" ").run { Material(get(0).toInt(), get(1).toInt()) }
-
-private data class Material(val weight: Int, val value: Int) : Comparable<Material> {
-    private val ratio: Float get() = value / weight.toFloat()
-
-    override fun compareTo(other: Material): Int = when {
-        ratio > other.ratio -> -1
-        ratio == other.ratio -> if (weight < other.weight) -1 else 1
-        else -> 1
-    }
-}
-
-/**
- * 일단 무게에 따른 가치 정렬시키고
- *
- * 두배수를 넘어갈 수 없다.
- *
- *
- *
- * 무게정렬
- *
- *
- *
- * */
+private fun String.toPair(): Pair<Int, Int> = split(" ").run { first().toInt() to last().toInt() }
