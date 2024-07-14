@@ -1,4 +1,4 @@
-package src.solved_ac.class1
+package solved_ac.class1
 
 import java.util.*
 import kotlin.math.max

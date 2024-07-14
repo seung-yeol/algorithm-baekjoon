@@ -1,4 +1,4 @@
-package src.solved_ac.class1
+package solved_ac.class1
 
 /**
  *@see <a href="https://www.acmicpc.net/problem/2439"></a>

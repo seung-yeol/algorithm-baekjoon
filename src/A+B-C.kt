@@ -1,5 +1,3 @@
-package src
-
 /**
  * @see <a href="https://www.acmicpc.net/problem/31403">A+B-C</a>
  *

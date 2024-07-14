@@ -1,4 +1,4 @@
-package src.solved_ac.class2
+package solved_ac.class2
 
 /**
  * @see <a href="https://www.acmicpc.net/problem/15829">해싱</a>
