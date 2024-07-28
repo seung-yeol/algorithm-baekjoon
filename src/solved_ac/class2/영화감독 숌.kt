@@ -14,16 +14,21 @@ package solved_ac.class2
  * */
 fun main() {
     val count = readln().toInt()
-
     var number = 666
     var i = 1
-    while (true) {
-        if (i == count) break
-        number++
-
-        val has666 = number.toString().contains("666")
-        if (has666) i++
+    while (i != count) {
+        if (contain666(++number)) i++
     }
 
     println(number)
+}
+
+private fun contain666(n: Int): Boolean {
+    var number = n
+    while (number > 665) {
+        if (number % 1000 == 666) return true
+
+        number /= 10
+    }
+    return false
 }
