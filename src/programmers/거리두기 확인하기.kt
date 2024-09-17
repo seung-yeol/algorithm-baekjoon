@@ -56,8 +56,6 @@ fun solution(places: Array<Array<String>>): IntArray {
         answer[index] = if (isSafe) 1 else 0
     }
 
-    println(answer.joinToString(", "))
-
     return answer
 }
 
@@ -81,6 +79,7 @@ private class Place(private val place: Array<CharArray>) {
         for (otherX in otherXRange) {
             for (otherY in otherYRange) {
                 if (otherX == x && otherY == y) continue
+                if (place[otherX][otherY] != 'P') continue
 
                 if (!XY(x, y).isSafeWith(other = XY(otherX, otherY))) return false
             }
@@ -91,19 +90,10 @@ private class Place(private val place: Array<CharArray>) {
 
 
     private fun XY.isSafeWith(other: XY): Boolean {
-        require(this != other)
-
-        if (place[other.x][other.y] != 'P') return true
-
         val distance = abs(x - other.x) + abs(y - other.y)
-        return when (distance) {
-            2 -> isSafeWhenDistance2(other)
-            1 -> false
-            else -> true
-        }
-    }
+        if (distance > 2) return true
+        if (distance == 1) return false
 
-    private fun XY.isSafeWhenDistance2(other: XY): Boolean {
         if (x == other.x) {
             val betweenY = (y + other.y) / 2
             return place[x][betweenY] == 'X'
