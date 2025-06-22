@@ -1,4 +1,4 @@
-package solved_ac.bronze.`1`
+package solved_ac.bronze.`5`
 
 /**
  * **문제**
